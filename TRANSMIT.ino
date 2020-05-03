@@ -12,7 +12,7 @@ const uint64_t my_radio_pipe = 0xE8E8F0F0E1LL; //Remember that this code should 
 RF24 radio(7, 8);
 
 struct Data_to_be_sent {
-  float Array[3]; 
+  float Array[5]; 
 };
 
 Data_to_be_sent sent_data;
@@ -47,14 +47,14 @@ void loop()
       while(Serial.available()==0){radio.write(&sent_data, sizeof(Data_to_be_sent));}
       sent_data.Array[2] = Serial.parseFloat();
       
-    /*  Serial.println("Throttle increase right: ");
+     Serial.println("Throttle increase right: ");
       while(Serial.available()==0){radio.write(&sent_data, sizeof(Data_to_be_sent));}
       sent_data.Array[3] = Serial.parseFloat();
 
       Serial.println("Throttle increase left: ");
       while(Serial.available()==0){radio.write(&sent_data, sizeof(Data_to_be_sent));}
       sent_data.Array[4] = Serial.parseFloat();
-     */ 
+    
       radio.write(&sent_data, sizeof(Data_to_be_sent));
 
    }
@@ -75,45 +75,41 @@ void loop()
       {
     Serial.print("Sending kp: ");
     Serial.println(sent_data.Array[i]);
-    //delay(500);
       }
 
       else if(i == 1)
       {
     Serial.print("Sending kd: ");
     Serial.println(sent_data.Array[i]);
-   // delay(500);
       }
 
       else
       {
     Serial.print("Sending ki: ");
     Serial.println(sent_data.Array[i]);
-   // delay(500);
       }
       
     }
 
-    /*for(int j = 3; j<5; j++)
+    for(int j = 3; j<5; j++)
     {
     if(j == 3)
     {
-    Serial.print("PID increase right: ");
+    Serial.print("Throttle increase right: ");
     Serial.println(sent_data.Array[j]);
     //delay(500);
     }
 
     else
     {
-    Serial.print("PID increase left: ");
+    Serial.print("Throttle increase left: ");
     Serial.println(sent_data.Array[j]);
     }
-    */
     }
     
     }
    
-
+}
  
   
   /*  sent_data.ch1=new_data;

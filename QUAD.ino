@@ -14,7 +14,7 @@ const uint64_t pipeIn = 0xE8E8F0F0E1LL;     //Remember that this code is the sam
 RF24 radio(7, 8);  //CE and CSN pins
 
 struct Received_data {
-  float Array[3];
+  float Array[5];
 };
 
 
@@ -52,8 +52,8 @@ int switch_State;
 float kp;
 float kd; 
 float ki; 
-//float PID_increase_right;
-//float PID_increase_left;
+float throttle_increase_right;
+float throttle_increase_left;
 Received_data received_data;
 
 void setup() {
@@ -108,8 +108,8 @@ receive_the_data();
   kd = received_data.Array[1];
   ki = received_data.Array[2];
   
- // PID_increase_right = received_data.Array[3];
-  //PID_increase_left = received_data.Array[4];
+  throttle_increase_right = received_data.Array[3];
+  throttle_increase_left = received_data.Array[4];
 
 
     timePrev = time;  // the previous time is stored before the actual time read
@@ -286,8 +286,8 @@ if(switch_State>900)
 {
   digitalWrite(4, HIGH);
   digitalWrite(10, LOW);
- left_prop.writeMicroseconds(pwmLeft);
-right_prop.writeMicroseconds(pwmRight);
+ left_prop.writeMicroseconds(pwmLeft+throttle_increase_left);
+right_prop.writeMicroseconds(pwmRight+throttle_increase_right);
 previous_error = error; //Remember to store the previous error.
 }
 
